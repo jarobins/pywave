@@ -17,9 +17,9 @@ pygame.init()
 screen=pygame.display.set_mode([1080, 800])
 screen.fill([0, 0, 0])
 y = [240] * 1024
-y2 = [0] * 1024
+y2 = [.0001] * 1024
 y3 = [240] * 1024
-y4 = [0] * 1024
+y4 = [.0001] * 1024
 
 speed = 1
 freq = 1
@@ -66,7 +66,7 @@ while True:
         cmplx_sample *= ddc_cmplx_sample
     z = abs((np.fft.fft(y2)/1024))
     z *= z
-    z /= 10
+    z = np.log10(z)
     max_x = list(z).index(max(z))
     max_y = max(z)
     z = (-z)+750
@@ -79,9 +79,9 @@ while True:
     del y[-1]
     del y2[-1]
     del y3[-1]
-    pygame.draw.lines(screen, [255, 255, 255], False, zip(x, y), 2)
-    pygame.draw.lines(screen, [255, 255, 255], False, zip(x, z), 2)
-    pygame.draw.lines(screen, [255, 255, 255], False, zip(x, y3), 2)
+    pygame.draw.lines(screen, [255, 255, 255], False, [a for a in zip(x, y)], 2)
+    pygame.draw.lines(screen, [255, 255, 255], False, [a for a in zip(x, z)], 2)
+    pygame.draw.lines(screen, [255, 255, 255], False, [a for a in zip(x, y3)], 2)
 
     textsurface  = myfont.render('FREQ    : %s' % freq, False, (255, 255, 255))
     textsurface2 = myfont.render('DDC FREQ: %s' % ddc_freq, False, (255, 255, 255))
